@@ -7,7 +7,7 @@ a = 0
 b = 1
 
 # Domain discretization
-npts = 100
+npts = 200
 x = np.linspace(a,b,npts)
 
 # Initial condition
@@ -16,7 +16,7 @@ u_mask = (x > 0.4) & (x < 0.7)
 u[u_mask] = 1.0
 
 # Advection info
-a = 3.5
+a = -1.0
 
 # Solver
 dt = 0.01
@@ -36,17 +36,21 @@ fig, ax = plt.subplots()
 line, = ax.plot(x, u)
 
 u_next = np.zeros_like(u)
+
+def f(u):
+    return u*u
+
 while t<tf:
     print(t)
     
     if a>0:
         for i in range(1,u.shape[0]):
-            u_next[i] = u[i] - a*(dt/dh)*(u[i] - u[i-1])
+            u_next[i] = u[i] - a*(dt/dh)*(f(u[i]) - f(u[i-1]))
         u_next[0] = u[-1]
 
     if a<0:
         for i in range(0,u.shape[0]-1):
-            u_next[i] = u[i] - a*(dt/dh)*(u[i+1] - u[i])
+            u_next[i] = u[i] - a*(dt/dh)*(f(u[i+1]) - f(u[i]))
         u_next[-1] = u[0]
 
     t+=dt

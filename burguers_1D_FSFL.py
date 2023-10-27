@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 import multiprocessing
 
 # Domain definition
-a = 0
-b = 1
+x0 = 0
+xf = 1
 
-# Domain discretization
+# Domain discretizations
 npts = 100
-x = np.linspace(a,b,npts)
+x = np.linspace(x0,xf,npts)
 
 # Initial condition
 u = np.zeros_like(x)
@@ -17,11 +17,11 @@ u_mask = (x > 0.4) & (x < 0.7)
 u[u_mask] = 1.0
 
 # Advection info
-a = -3.5
+a = -1.0
 
 # Solver
 dt = 0.01
-dh = abs(a-b)/npts
+dh = abs(xf-x0)/npts
 t = 0
 tf = 10
 
@@ -84,18 +84,21 @@ def CONV(a,u,i):
     CONV = (uf*ufc - ug*ugc)
     return CONV
 
+def f(u):
+    return np.multiply(u,u)
+
 u_next = np.zeros_like(u)
 while t<tf:
     print(t)
     
     if a>0:
         for i in range(1,u.shape[0]):
-            u_next[i] = u[i] - a*(dt/dh)*CONV(a,u,i)
+            u_next[i] = u[i] - a*(dt/dh)*CONV(a,f(u),i)
         u_next[0] = u[-1]
 
     if a<0:
         for i in range(0,u.shape[0]-1):
-            u_next[i] = u[i] + a*(dt/dh)*CONV(a,u,i)
+            u_next[i] = u[i] + a*(dt/dh)*CONV(a,f(u),i)
         u_next[-1] = u[0]
 
     t+=dt
