@@ -38,7 +38,7 @@ line, = ax.plot(x, u)
 u_next = np.zeros_like(u)
 
 def f(u):
-    return np.multiply(u,u)
+    return u*u/(1 + u*u)
 
 while t<tf:
     print(t)

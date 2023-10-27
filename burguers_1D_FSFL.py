@@ -17,7 +17,7 @@ u_mask = (x > 0.4) & (x < 0.7)
 u[u_mask] = 1.0
 
 # Advection info
-a = -1.0
+a = -3.5
 
 # Solver
 dt = 0.01
