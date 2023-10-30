@@ -19,14 +19,12 @@ ax.set_ylim([-0.1, 1.1])
 line, = ax.plot(x, u)
 
 # Solution
-t = 0
+t = 0.1
 tf = 10
 dt = 0.1
 
 while t<tf:
     print(t)
-
-    t+=dt
     
     for i in range(1,u.shape[0]):
         if x[i]/t < 0.5*(1+np.sqrt(2)):
@@ -39,8 +37,10 @@ while t<tf:
     plt.draw()  # Redraw the plot
     plt.pause(0.01)  # Add a small delay to control the update rate
 
-    if abs(t - 0.5) < 0.01:
+    if t >= 0.5:
         break
+
+    t+=dt
 
 plt.ioff()  # Turn off interactive mode when done
 plt.show()  # Display the final plot
