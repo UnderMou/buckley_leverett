@@ -12,13 +12,13 @@ class Fractional_flow:
 
 
 
-    def set_frac_flow(self, Sw, krw, kro):
+    def set_fw(self, Sw, krw, kro):
         np.seterr(all='ignore')
         # Fractional flow ignoring gravity / capillarity effects
         self.fw = np.divide(1, 1 + (1/self.M)*np.divide(kro, krw))
         np.seterr(all='warn')
 
-    def get_frac_flow(self):
+    def get_fw(self):
         return self.fw
 
     def plot_fw(self, Sw):
