@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 # Section 7.4.2
 
 class Relative_perm:
+
     def __init__(self,dict_infos):
         necessary_keys = ['Swc', 'Sor', 'krw_max', 'kro_max', 'a', 'b']
         for key in necessary_keys:
@@ -19,6 +20,7 @@ class Relative_perm:
         self.b = dict_infos['b']
 
 
+
     def Se_func(self,Sw):    # Effective water saturation function
         return np.divide(Sw - self.Swc, 1-self.Sor - self.Swc)
 
@@ -27,6 +29,12 @@ class Relative_perm:
 
     def set_kro(self,Sw):
         self.kro = self.kro_max*np.power(1-self.Se_func(Sw),self.b)
+
+    def get_krw(self):
+        return self.krw
+    
+    def get_kro(self):
+        return self.kro
 
     def plot_perm(self, Sw):
         plt.plot(Sw,self.krw,label='krw')
