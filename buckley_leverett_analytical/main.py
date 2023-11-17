@@ -2,16 +2,18 @@ from relative_permeability import Relative_perm
 from fractional_flow import Fractional_flow
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # Wettability scenarios
 
-# # Mixed-wet
-# kr_infos = {'Swc' : 0.1,
-#             'Sor' : 0.15,
-#             'krw_max': 0.5,
-#             'kro_max': 1.0,
-#             'a': 8,
-#             'b': 2.5}
+# Mixed-wet
+kr_infos = {'Swc' : 0.1,
+            'Sor' : 0.15,
+            'krw_max': 0.5,
+            'kro_max': 1.0,
+            'a': 8,
+            'b': 2.5,
+            'wettability' : 'Mixed-wet'}
 
 # # Strongly water-wet
 # kr_infos = {'Swc' : 0.1,
@@ -19,7 +21,8 @@ import matplotlib.pyplot as plt
 #             'krw_max': 0.1,
 #             'kro_max': 1.0,
 #             'a': 2,
-#             'b': 1}
+#             'b': 1,
+#             'wettability' : 'Mixed-wet'}
 
 # # Weakly water-wet
 # kr_infos = {'Swc' : 0.1,
@@ -27,15 +30,17 @@ import matplotlib.pyplot as plt
 #             'krw_max': 0.2,
 #             'kro_max': 1.0,
 #             'a': 2,
-#             'b': 1.5}
+#             'b': 1.5,
+#             'wettability' : 'Weakly water-wet'}
 
-# Weakly water-wet
-kr_infos = {'Swc' : 0.1,
-            'Sor' : 0.05,
-            'krw_max': 0.95,
-            'kro_max': 1.0,
-            'a': 1.5,
-            'b': 4}
+# # Oil-wet
+# kr_infos = {'Swc' : 0.1,
+#             'Sor' : 0.05,
+#             'krw_max': 0.95,
+#             'kro_max': 1.0,
+#             'a': 1.5,
+#             'b': 4,
+#             'wettability' : 'Oil-wet'}
 
 # Define relative permeability functions
 rel_perm = Relative_perm(kr_infos)
@@ -49,7 +54,7 @@ rel_perm.set_kro(Sw)
 # rel_perm.plot_perm(Sw)
 
 # Definig fractional flow
-fw_infos = {'M' : 1.0}  # M = mu_displaced / mu_injected
+fw_infos = {'M' : 200.0}  # M = mu_displaced / mu_injected
 frac_flow = Fractional_flow(fw_infos)
 frac_flow.set_fw(Sw, rel_perm.get_krw(), rel_perm.get_kro())
 # frac_flow.plot_fw(Sw)
@@ -113,8 +118,54 @@ Sw3 = kr_infos['Swc'] * np.ones_like(vD3)
 Sol_vD = np.concatenate((vD1 , vD2, vD3))
 Sol_Sw = np.concatenate((Sw1 , Sw2, Sw3))
 
-plt.plot(Sol_vD,Sol_Sw)
-plt.ylim([-0.1,1.1])
-plt.xlim([-0.1,6.0])
+# plt.plot(Sol_vD,Sol_Sw)
+# plt.ylim([-0.1,1.1])
+# plt.xlim([-0.1,6.0])
+# plt.grid(True)
+# plt.show()
+
+
+
+
+
+
+
+
+
+
+
+# Recovery Calculations
+
+Sw1 = np.linspace(Sws, 1-kr_infos['Sor'], 100)
+Sw1 = Sw1[1:len(Sw1)-1]
+
+NpD = np.zeros_like(Sw1)
+tD1 = np.zeros_like(Sw1)
+
+for i in range(len(Sw1)):
+    Sw1_idx = np.argmin(np.abs(Sw - Sw1[i]))
+    # print(Sw[Sw1_idx], Sw1[i])
+    fw1 = frac_flow.get_fw()[Sw1_idx]
+    # print(Sw1[i], fw1)
+    tD1[i] = 1 / dfw_dSw[Sw1_idx]
+    # print(tD1[i])
+
+    Sw_bar = Sw1[i] + tD1[i]*(1 - fw1)
+
+    NpD[i] = Sw_bar - kr_infos['Swc']
+
+tDmax = 3.0
+
+id_tDmax = np.argmin(np.abs(tDmax - tD1)) + 1
+
+tD = np.concatenate((np.array([0.0, 1/vsD]), tD1[:id_tDmax])) 
+NpD = np.concatenate((np.array([0.0, 1/vsD]), NpD[:id_tDmax])) 
+
+plt.plot(tD,NpD,c='b',label='Analítico ' + r'$\mu_{disp.}/\mu_{injec.} = $' + str(fw_infos['M']))
+plt.ylim([-0.1, 1.1])
 plt.grid(True)
+plt.title(kr_infos['wettability'])
+plt.ylabel(r"$N_{p_D}$")
+plt.xlabel(r"$t_D$")
+plt.legend()
 plt.show()
