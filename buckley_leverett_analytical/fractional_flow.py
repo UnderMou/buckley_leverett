@@ -13,17 +13,19 @@ class Fractional_flow:
         self.rel_perm = rel_perm
         self.M = dict_infos['M']
 
-
-
     def set_fw(self):
         krw, kro = self.rel_perm.get_krw(), self.rel_perm.get_kro()
         np.seterr(all='ignore')
         # Fractional flow ignoring gravity / capillarity effects
         self.fw = np.divide(1, 1 + (1/self.M)*np.divide(kro, krw))
         np.seterr(all='warn')
+        self.dfw_dSw = np.gradient(self.fw, self.Sw)
 
     def get_fw(self):
         return self.fw
+    
+    def get_dfw_dSw(self):
+        return self.dfw_dSw
 
     def plot_fw(self):
         plt.title('Fractional flow')
