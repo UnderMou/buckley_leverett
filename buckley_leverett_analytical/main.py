@@ -18,18 +18,18 @@ import pandas as pd
 #             'kro_max': 1.0,
 #             'a': 8,
 #             'b': 2.5,
-#             'M' : 200.0,
+#             'M' : 20.0,
 #             'wettability' : 'Mixed-wet'}
 
-# # Strongly water-wet
-# kr_infos = {'Swc' : 0.1,
-#             'Sor' : 0.4,
-#             'krw_max': 0.1,
-#             'kro_max': 1.0,
-#             'a': 2,
-#             'b': 1,
-#             'M' : 200.0,
-#             'wettability' : 'Mixed-wet'}
+# Strongly water-wet
+kr_infos = {'Swc' : 0.1,
+            'Sor' : 0.4,
+            'krw_max': 0.1,
+            'kro_max': 1.0,
+            'a': 2,
+            'b': 1,
+            'M' : 20.0,
+            'wettability' : 'Strongly-water-wet'}
 
 # # Weakly water-wet
 # kr_infos = {'Swc' : 0.1,
@@ -39,17 +39,17 @@ import pandas as pd
 #             'a': 2,
 #             'b': 1.5,
 #             'M' : 20.0,
-#             'wettability' : 'Weakly water-wet'}
+#             'wettability' : 'Weakly-water-wet'}
 
-# Oil-wet
-kr_infos = {'Swc' : 0.1,
-            'Sor' : 0.05,
-            'krw_max': 0.95,
-            'kro_max': 1.0,
-            'a': 1.5,
-            'b': 4,
-            'M' : 20.0,
-            'wettability' : 'Oil-wet'}
+# # Oil-wet
+# kr_infos = {'Swc' : 0.1,
+#             'Sor' : 0.05,
+#             'krw_max': 0.95,
+#             'kro_max': 1.0,
+#             'a': 1.5,
+#             'b': 4,
+#             'M' : 20.0,
+#             'wettability' : 'Oil-wet'}
 
 ###########################################################################################
 
