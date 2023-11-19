@@ -31,7 +31,7 @@ class Recovery_calc:
         self.tD = np.concatenate((np.array([0.0, 1/self.bl_sol.get_vsD()]), tD1)) 
         self.NpD = np.concatenate((np.array([0.0, 1/self.bl_sol.get_vsD()]), NpD)) 
 
-    def show_curve(self, tDmax = 3.0):
+    def show_curve(self, tDmax = 3.0, save_pdf = False):
         # tDmax : max pore volume of injected water to show (nondimensional time)
 
         id_tDmax = np.argmin(np.abs(tDmax - self.tD))
@@ -43,4 +43,5 @@ class Recovery_calc:
         plt.ylabel(r"$N_{p_D}$")
         plt.xlabel(r"$t_D$")
         plt.legend()
+        if save_pdf: plt.savefig('recovery_curve_' + self.kr_infos['wettability'] + '.pdf', dpi=300, bbox_inches='tight')
         plt.show()

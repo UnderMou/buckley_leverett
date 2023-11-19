@@ -9,6 +9,7 @@ class Fractional_flow:
         for key in necessary_keys:
             assert key in dict_infos.keys(), f"'{key}' is not defined."
         
+        self.kr_infos = dict_infos
         self.Sw = Sw
         self.rel_perm = rel_perm
         self.M = dict_infos['M']
@@ -27,7 +28,7 @@ class Fractional_flow:
     def get_dfw_dSw(self):
         return self.dfw_dSw
 
-    def plot_fw(self):
+    def plot_fw(self, save_pdf = False):
         plt.title('Fractional flow')
         plt.xlabel(r"$S_w$")
         plt.ylabel(r"$f_w$")
@@ -36,4 +37,5 @@ class Fractional_flow:
         plt.legend()
         plt.ylim([-0.1,1.1])
         plt.xlim([-0.1,1.1])
+        if save_pdf: plt.savefig('fractional_flow_' + self.kr_infos['wettability'] + '.pdf', dpi=300, bbox_inches='tight')
         plt.show()

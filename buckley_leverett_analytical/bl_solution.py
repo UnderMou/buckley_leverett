@@ -62,7 +62,7 @@ class BuckleyLeverettSolution:
     def get_vsD(self):
         return self.vsD
 
-    def show_solution(self):
+    def show_solution(self, save_pdf = False):
         plt.plot(self.Sol_vD, self.Sol_Sw, c='b',label='Analytical solution ' + r'$\mu_{disp.}/\mu_{injec.} = $' + str(self.kr_infos['M']))
         plt.title('Analytical solution \n wettability condition: ' + self.kr_infos['wettability'])
         plt.ylabel(r"$S_w$")
@@ -71,4 +71,5 @@ class BuckleyLeverettSolution:
         plt.xlim([-0.1,6.0])
         plt.grid(True)
         plt.legend()
+        if save_pdf: plt.savefig('buckleyLeverett_solution_' + self.kr_infos['wettability'] + '.pdf', dpi=300, bbox_inches='tight')
         plt.show()

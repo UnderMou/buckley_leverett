@@ -19,6 +19,7 @@ class Relative_perm:
         self.a = dict_infos['a']
         self.b = dict_infos['b']
         self.Sw = Sw
+        self.case = dict_infos['wettability']
 
 
 
@@ -37,7 +38,7 @@ class Relative_perm:
     def get_kro(self):
         return self.kro
 
-    def plot_perm(self):
+    def plot_perm(self, save_pdf = False):
         plt.title('Relative permeability')
         plt.xlabel(r"$S_w$")
         plt.ylabel(r"$k_r$")
@@ -47,4 +48,6 @@ class Relative_perm:
         plt.legend()
         plt.ylim([-0.1,1.1])
         plt.xlim([-0.1,1.1])
+        if save_pdf: plt.savefig('rel_perm_' + self.case + '.pdf', dpi=300, bbox_inches='tight')
         plt.show()
+

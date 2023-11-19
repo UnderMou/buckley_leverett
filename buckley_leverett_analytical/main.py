@@ -21,15 +21,15 @@ import pandas as pd
 #             'M' : 200.0,
 #             'wettability' : 'Mixed-wet'}
 
-# Strongly water-wet
-kr_infos = {'Swc' : 0.1,
-            'Sor' : 0.4,
-            'krw_max': 0.1,
-            'kro_max': 1.0,
-            'a': 2,
-            'b': 1,
-            'M' : 200.0,
-            'wettability' : 'Mixed-wet'}
+# # Strongly water-wet
+# kr_infos = {'Swc' : 0.1,
+#             'Sor' : 0.4,
+#             'krw_max': 0.1,
+#             'kro_max': 1.0,
+#             'a': 2,
+#             'b': 1,
+#             'M' : 200.0,
+#             'wettability' : 'Mixed-wet'}
 
 # # Weakly water-wet
 # kr_infos = {'Swc' : 0.1,
@@ -38,18 +38,18 @@ kr_infos = {'Swc' : 0.1,
 #             'kro_max': 1.0,
 #             'a': 2,
 #             'b': 1.5,
-#             'M' : 200.0,
+#             'M' : 20.0,
 #             'wettability' : 'Weakly water-wet'}
 
-# # Oil-wet
-# kr_infos = {'Swc' : 0.1,
-#             'Sor' : 0.05,
-#             'krw_max': 0.95,
-#             'kro_max': 1.0,
-#             'a': 1.5,
-#             'b': 4,
-#             'M' : 200.0,
-#             'wettability' : 'Oil-wet'}
+# Oil-wet
+kr_infos = {'Swc' : 0.1,
+            'Sor' : 0.05,
+            'krw_max': 0.95,
+            'kro_max': 1.0,
+            'a': 1.5,
+            'b': 4,
+            'M' : 20.0,
+            'wettability' : 'Oil-wet'}
 
 ###########################################################################################
 
@@ -61,19 +61,19 @@ rel_perm = Relative_perm(Sw, kr_infos)
 # Builds and show relative permeability vector values
 rel_perm.set_krw()
 rel_perm.set_kro()
-rel_perm.plot_perm()
+rel_perm.plot_perm(save_pdf = True)
 
 # Definig fractional flow
 frac_flow = Fractional_flow(Sw, rel_perm, kr_infos)
 frac_flow.set_fw()
-frac_flow.plot_fw()
+frac_flow.plot_fw(save_pdf = True)
 
 # Construction of analytical solution
 bl_solution = BuckleyLeverettSolution(Sw, frac_flow, kr_infos)
 bl_solution.construct_solution()
-bl_solution.show_solution()
+bl_solution.show_solution(save_pdf = True)
 
 # Construction of recovery curve
 rec_curve = Recovery_calc(kr_infos, frac_flow, bl_solution)
 rec_curve.do_recovery()
-rec_curve.show_curve()
+rec_curve.show_curve(save_pdf = True)
