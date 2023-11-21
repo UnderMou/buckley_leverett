@@ -61,11 +61,13 @@ class Recovery_calc:
 
         xD = 1.0 # (x=L) / L
         t = np.divide(self.tD*phi*L,qt)
-
-        
+  
         self.t = t
-        print(t[0],t[-1])
 
     def show_dimensional_NpD_t(self):
-        plt.plot(self.t, self.NpD)
+        plt.title('Recovery curve')
+        plt.xlabel(r"$t$")
+        plt.ylabel(r"$N_{p_D}$")
+        plt.plot(self.t, self.NpD, c='b')
+        plt.grid(True)
         plt.show()

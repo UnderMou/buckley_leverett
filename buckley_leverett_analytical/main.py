@@ -81,10 +81,10 @@ rec_curve.do_recovery()
 # Recovery of dimensional solution
 dimensional_reservoir = {'L'  : 1.0,
                          'phi': 0.35,
-                         'qt' : 1e-5,
+                         'qt' : 7.5e-5,
                          'ti' : 0.01,
-                         'tf' : 40000,
-                         'Nt' : 500,
+                         'tf' : 5000,
+                         'Nt' : 100,
                          'Nx' : 1000}
 
 bl_solution.do_dimensional_Sw_x(dimensional_reservoir)
