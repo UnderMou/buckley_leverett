@@ -61,13 +61,30 @@ class Recovery_calc:
 
         xD = 1.0 # (x=L) / L
         t = np.divide(self.tD*phi*L,qt)
-  
+
+        self.Np = self.NpD*phi
         self.t = t
+    
+    def get_t(self):
+        return self.t
 
     def show_dimensional_NpD_t(self):
         plt.title('Recovery curve')
         plt.xlabel(r"$t$")
-        plt.ylabel(r"$N_{p_D}$")
-        plt.plot(self.t, self.NpD, c='b')
+        plt.ylabel(r"$N_{p}$")
+        plt.plot(self.t, self.Np, c='b')
         plt.grid(True)
         plt.show()
+
+    def define_integrand(self, bl_solution, frac_flow):
+        fw_t = np.zeros(bl_solution.get_grid().shape[0])
+        for i in range(len(fw_t)):
+            Sw = bl_solution.get_grid()[i][-1]
+            fw_t[i] = np.interp(Sw, frac_flow.get_Sw(), frac_flow.get_fw())
+        # print(len(bl_solution.get_t()), len(fw_t))
+        # plt.plot(bl_solution.get_t(),fw_t)
+        # plt.show()
+        self.fw_t = fw_t
+
+    def integrand(self, t, bl_solution):
+        return 1 - np.interp(t, bl_solution.get_t(), self.fw_t)

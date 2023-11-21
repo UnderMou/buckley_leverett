@@ -28,6 +28,9 @@ class Fractional_flow:
     def get_dfw_dSw(self):
         return self.dfw_dSw
 
+    def get_Sw(self):
+        return self.Sw
+
     def plot_fw(self, save_pdf = False):
         plt.title('Fractional flow')
         plt.xlabel(r"$S_w$")

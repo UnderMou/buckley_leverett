@@ -104,6 +104,12 @@ class BuckleyLeverettSolution:
         self.t = t
         self.grid = grid  
 
+    def get_grid(self):
+        return self.grid
+    
+    def get_t(self):
+        return self.t
+
     def show_dimensional_Sw_x(self):
         # Create the plot
         plt.ion()  # Turn on interactive mode for live updating
@@ -128,3 +134,4 @@ class BuckleyLeverettSolution:
             
         plt.ioff()  # Turn off interactive mode when done
         plt.show()  # Display the final plot
+

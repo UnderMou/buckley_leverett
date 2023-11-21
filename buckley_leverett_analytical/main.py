@@ -6,6 +6,7 @@ from recovery_calc import Recovery_calc
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from scipy.integrate import quad
 
 ###########################################################################################
 
@@ -84,11 +85,25 @@ dimensional_reservoir = {'L'  : 1.0,
                          'qt' : 7.5e-5,
                          'ti' : 0.01,
                          'tf' : 5000,
-                         'Nt' : 100,
-                         'Nx' : 1000}
+                         'Nt' : 500,
+                         'Nx' : 1000,
+                         'A'  : 1.0} 
 
 bl_solution.do_dimensional_Sw_x(dimensional_reservoir)
-bl_solution.show_dimensional_Sw_x()
+# bl_solution.show_dimensional_Sw_x()
 
 rec_curve.do_dimensional_NpD_t(dimensional_reservoir)
 rec_curve.show_dimensional_NpD_t()
+
+rec_curve.define_integrand(bl_solution, frac_flow)
+
+I = []
+
+for i in range(len(rec_curve.get_t())):
+    Integral = quad(rec_curve.integrand, 0, rec_curve.get_t()[i], args=(bl_solution), limit = 500, epsabs=1.49e-05, epsrel=1.49e-05)[0]
+    Integral*=dimensional_reservoir['qt']*dimensional_reservoir['A']
+    I.append(Integral)
+
+plt.plot(rec_curve.get_t(), np.array(I))
+plt.grid(True)
+plt.show()
