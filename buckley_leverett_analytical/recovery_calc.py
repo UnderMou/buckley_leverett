@@ -61,7 +61,7 @@ class Recovery_calc:
 
         xD = 1.0 # (x=L) / L
         t = np.divide(self.tD*phi*L,qt)
-
+  
         self.Np = self.NpD*phi
         self.t = t
     

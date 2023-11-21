@@ -12,25 +12,25 @@ from scipy.integrate import quad
 
 # Wettability scenarios
 
-# # Mixed-wet
-# kr_infos = {'Swc' : 0.1,
-#             'Sor' : 0.15,
-#             'krw_max': 0.5,
-#             'kro_max': 1.0,
-#             'a': 8,
-#             'b': 2.5,
-#             'M' : 20.0,
-#             'wettability' : 'Mixed-wet'}
-
-# Strongly water-wet
+# Mixed-wet
 kr_infos = {'Swc' : 0.1,
-            'Sor' : 0.4,
-            'krw_max': 0.1,
+            'Sor' : 0.15,
+            'krw_max': 0.5,
             'kro_max': 1.0,
-            'a': 2,
-            'b': 1,
+            'a': 8,
+            'b': 2.5,
             'M' : 20.0,
-            'wettability' : 'Strongly-water-wet'}
+            'wettability' : 'Mixed-wet'}
+
+# # Strongly water-wet
+# kr_infos = {'Swc' : 0.1,
+#             'Sor' : 0.4,
+#             'krw_max': 0.1,
+#             'kro_max': 1.0,
+#             'a': 2,
+#             'b': 1,
+#             'M' : 200.0,
+#             'wettability' : 'Strongly-water-wet'}
 
 # # Weakly water-wet
 # kr_infos = {'Swc' : 0.1,
@@ -77,7 +77,7 @@ bl_solution.construct_solution()
 # Construction of recovery curve
 rec_curve = Recovery_calc(kr_infos, frac_flow, bl_solution)
 rec_curve.do_recovery()
-# rec_curve.show_curve(save_pdf = True)
+rec_curve.show_curve(save_pdf = True)
 
 # Recovery of dimensional solution
 dimensional_reservoir = {'L'  : 1.0,
