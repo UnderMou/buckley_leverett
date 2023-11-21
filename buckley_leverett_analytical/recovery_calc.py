@@ -45,3 +45,27 @@ class Recovery_calc:
         plt.legend()
         if save_pdf: plt.savefig('recovery_curve_' + self.kr_infos['wettability'] + '.pdf', dpi=300, bbox_inches='tight')
         plt.show()
+
+    def do_dimensional_NpD_t(self, dimensional_reservoir):
+        necessary_keys = ['L', 'phi', 'qt', 'ti', 'tf', 'Nt', 'Nx']
+        for key in necessary_keys:
+            assert key in dimensional_reservoir.keys(), f"'{key}' is not defined."
+
+        L = dimensional_reservoir['L']
+        phi = dimensional_reservoir['phi']
+        qt = dimensional_reservoir['qt']
+        ti = dimensional_reservoir['ti']
+        tf = dimensional_reservoir['tf']
+        Nt = dimensional_reservoir['Nt']
+        Nx = dimensional_reservoir['Nx']
+
+        xD = 1.0 # (x=L) / L
+        t = np.divide(self.tD*phi*L,qt)
+
+        
+        self.t = t
+        print(t[0],t[-1])
+
+    def show_dimensional_NpD_t(self):
+        plt.plot(self.t, self.NpD)
+        plt.show()

@@ -73,3 +73,58 @@ class BuckleyLeverettSolution:
         plt.legend()
         if save_pdf: plt.savefig('buckleyLeverett_solution_' + self.kr_infos['wettability'] + '.pdf', dpi=300, bbox_inches='tight')
         plt.show()
+
+    def do_dimensional_Sw_x(self, dimensional_reservoir):
+        necessary_keys = ['L', 'phi', 'qt', 'ti', 'tf', 'Nt', 'Nx']
+        for key in necessary_keys:
+            assert key in dimensional_reservoir.keys(), f"'{key}' is not defined."
+
+        L = dimensional_reservoir['L']
+        phi = dimensional_reservoir['phi']
+        qt = dimensional_reservoir['qt']
+        ti = dimensional_reservoir['ti']
+        tf = dimensional_reservoir['tf']
+        Nt = dimensional_reservoir['Nt']
+        Nx = dimensional_reservoir['Nx']
+
+        x = np.linspace(0.0, L , Nx)
+        t = np.linspace(ti, tf, Nt)
+
+        grid = np.zeros((len(t), len(x)), dtype=float)
+
+        for i in range(grid.shape[0]):
+            
+            xD = np.divide(x, L)
+            tD = np.divide(qt * t[i], phi * L)
+            vD = np.divide(xD, tD)
+
+            grid[i][:] = np.interp(vD, self.Sol_vD, self.Sol_Sw)
+            
+        self.x = x
+        self.t = t
+        self.grid = grid  
+
+    def show_dimensional_Sw_x(self):
+        # Create the plot
+        plt.ion()  # Turn on interactive mode for live updating
+        fig, ax = plt.subplots()
+        ylimit = [-0.1, 1.1]
+        ax.set_ylim(ylimit)
+        ax.grid(True)
+        ax.set_xlabel('x')
+        ax.set_ylabel('Sw')
+        line, = ax.plot(self.x, self.grid[0][:])
+
+        text_element = ax.text(0.825, 1.05, '', fontsize=10, ha='left', va='center', color='k')
+
+
+        for i in range(self.grid.shape[0]):
+            new_text = f'time: {self.t[i]:.2f}'
+            text_element.set_text(new_text)
+
+            line.set_ydata(self.grid[i][:])   # Update the y-data of the line
+            plt.draw()          # Redraw the plot
+            plt.pause(0.01)     # Add a small delay to control the update rate
+            
+        plt.ioff()  # Turn off interactive mode when done
+        plt.show()  # Display the final plot

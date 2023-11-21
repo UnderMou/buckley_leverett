@@ -61,19 +61,34 @@ rel_perm = Relative_perm(Sw, kr_infos)
 # Builds and show relative permeability vector values
 rel_perm.set_krw()
 rel_perm.set_kro()
-rel_perm.plot_perm(save_pdf = True)
+# rel_perm.plot_perm(save_pdf = True)
 
 # Definig fractional flow
 frac_flow = Fractional_flow(Sw, rel_perm, kr_infos)
 frac_flow.set_fw()
-frac_flow.plot_fw(save_pdf = True)
+# frac_flow.plot_fw(save_pdf = True)
 
 # Construction of analytical solution
 bl_solution = BuckleyLeverettSolution(Sw, frac_flow, kr_infos)
 bl_solution.construct_solution()
-bl_solution.show_solution(save_pdf = True)
+# bl_solution.show_solution(save_pdf = True)
 
 # Construction of recovery curve
 rec_curve = Recovery_calc(kr_infos, frac_flow, bl_solution)
 rec_curve.do_recovery()
-rec_curve.show_curve(save_pdf = True)
+# rec_curve.show_curve(save_pdf = True)
+
+# Recovery of dimensional solution
+dimensional_reservoir = {'L'  : 1.0,
+                         'phi': 0.35,
+                         'qt' : 1e-5,
+                         'ti' : 0.01,
+                         'tf' : 40000,
+                         'Nt' : 500,
+                         'Nx' : 1000}
+
+bl_solution.do_dimensional_Sw_x(dimensional_reservoir)
+bl_solution.show_dimensional_Sw_x()
+
+rec_curve.do_dimensional_NpD_t(dimensional_reservoir)
+rec_curve.show_dimensional_NpD_t()
