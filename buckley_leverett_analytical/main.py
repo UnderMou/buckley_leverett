@@ -104,6 +104,9 @@ for i in range(len(rec_curve.get_t())):
     Integral*=dimensional_reservoir['qt']*dimensional_reservoir['A']
     I.append(Integral)
 
+plt.title('Recovery curve - Numerical Integration')
+plt.xlabel(r"$t$")
+plt.ylabel(r"$N_{p}$")
 plt.plot(rec_curve.get_t(), np.array(I))
 plt.grid(True)
 plt.show()

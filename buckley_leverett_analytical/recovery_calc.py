@@ -69,7 +69,7 @@ class Recovery_calc:
         return self.t
 
     def show_dimensional_NpD_t(self):
-        plt.title('Recovery curve')
+        plt.title('Recovery curve - Analytical')
         plt.xlabel(r"$t$")
         plt.ylabel(r"$N_{p}$")
         plt.plot(self.t, self.Np, c='b')
