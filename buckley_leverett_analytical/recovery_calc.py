@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.integrate import quad
 
 class Recovery_calc:
 
@@ -59,20 +60,20 @@ class Recovery_calc:
         Nt = dimensional_reservoir['Nt']
         Nx = dimensional_reservoir['Nx']
 
-        xD = 1.0 # (x=L) / L
         t = np.divide(self.tD*phi*L,qt)
   
-        self.Np = self.NpD*phi
+        self.Np = self.NpD*phi # TODO: Veriticar com Rodrigo se multiplica por L e A também
         self.t = t
     
     def get_t(self):
         return self.t
 
-    def show_dimensional_NpD_t(self):
+    def show_dimensional_NpD_t(self,dimensional_reservoir):
+        tmax = np.argmin(np.abs(dimensional_reservoir['tf'] - self.t))
         plt.title('Recovery curve - Analytical')
         plt.xlabel(r"$t$")
         plt.ylabel(r"$N_{p}$")
-        plt.plot(self.t, self.Np, c='b')
+        plt.plot(self.t[:tmax], self.Np[:tmax], c='b')
         plt.grid(True)
         plt.show()
 
@@ -88,3 +89,26 @@ class Recovery_calc:
 
     def integrand(self, t, bl_solution):
         return 1 - np.interp(t, bl_solution.get_t(), self.fw_t)
+    
+    def production_integration(self, bl_solution, dimensional_reservoir):
+        prod = []
+
+        for i in range(len(self.t)):
+            Integral = quad(self.integrand, 0, self.t[i], args=(bl_solution), limit = 500, epsabs=1.49e-04, epsrel=1.49e-04)[0]
+            Integral*=dimensional_reservoir['qt']*dimensional_reservoir['A']
+            prod.append(Integral)
+
+        self.prod = np.array(prod)
+
+    def get_prod(self):
+        return self.prod
+    
+    def show_production_prod_t(self, dimensional_reservoir):
+        tmax = np.argmin(np.abs(dimensional_reservoir['tf'] - self.t))
+
+        plt.title('Recovery curve - Numerical Integration')
+        plt.xlabel(r"$t$")
+        plt.ylabel(r"$N_{p}$")
+        plt.plot(self.t[:tmax], self.prod[:tmax])
+        plt.grid(True)
+        plt.show()

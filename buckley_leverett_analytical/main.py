@@ -6,31 +6,31 @@ from recovery_calc import Recovery_calc
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from scipy.integrate import quad
+
 
 ###########################################################################################
 
 # Wettability scenarios
 
-# Mixed-wet
-kr_infos = {'Swc' : 0.1,
-            'Sor' : 0.15,
-            'krw_max': 0.5,
-            'kro_max': 1.0,
-            'a': 8,
-            'b': 2.5,
-            'M' : 20.0,
-            'wettability' : 'Mixed-wet'}
-
-# # Strongly water-wet
+# # Mixed-wet
 # kr_infos = {'Swc' : 0.1,
-#             'Sor' : 0.4,
-#             'krw_max': 0.1,
+#             'Sor' : 0.15,
+#             'krw_max': 0.5,
 #             'kro_max': 1.0,
-#             'a': 2,
-#             'b': 1,
-#             'M' : 200.0,
-#             'wettability' : 'Strongly-water-wet'}
+#             'a': 8,
+#             'b': 2.5,
+#             'M' : 20.0,
+#             'wettability' : 'Mixed-wet'}
+
+# Strongly water-wet
+kr_infos = {'Swc' : 0.1,
+            'Sor' : 0.4,
+            'krw_max': 0.1,
+            'kro_max': 1.0,
+            'a': 2,
+            'b': 1,
+            'M' : 20.0,
+            'wettability' : 'Strongly-water-wet'}
 
 # # Weakly water-wet
 # kr_infos = {'Swc' : 0.1,
@@ -77,36 +77,25 @@ bl_solution.construct_solution()
 # Construction of recovery curve
 rec_curve = Recovery_calc(kr_infos, frac_flow, bl_solution)
 rec_curve.do_recovery()
-rec_curve.show_curve(save_pdf = True)
+# rec_curve.show_curve(save_pdf = False)
 
-# Recovery of dimensional solution
+# Recovery of dimensional solutions
 dimensional_reservoir = {'L'  : 1.0,
                          'phi': 0.35,
                          'qt' : 7.5e-5,
                          'ti' : 0.01,
-                         'tf' : 5000,
-                         'Nt' : 500,
+                         'tf' : 7000,
+                         'Nt' : 200,
                          'Nx' : 1000,
                          'A'  : 1.0} 
 
 bl_solution.do_dimensional_Sw_x(dimensional_reservoir)
-# bl_solution.show_dimensional_Sw_x()
+bl_solution.show_dimensional_Sw_x()
 
 rec_curve.do_dimensional_NpD_t(dimensional_reservoir)
-rec_curve.show_dimensional_NpD_t()
+rec_curve.show_dimensional_NpD_t(dimensional_reservoir)
 
 rec_curve.define_integrand(bl_solution, frac_flow)
+rec_curve.production_integration(bl_solution, dimensional_reservoir)
+rec_curve.show_production_prod_t(dimensional_reservoir)
 
-I = []
-
-for i in range(len(rec_curve.get_t())):
-    Integral = quad(rec_curve.integrand, 0, rec_curve.get_t()[i], args=(bl_solution), limit = 500, epsabs=1.49e-05, epsrel=1.49e-05)[0]
-    Integral*=dimensional_reservoir['qt']*dimensional_reservoir['A']
-    I.append(Integral)
-
-plt.title('Recovery curve - Numerical Integration')
-plt.xlabel(r"$t$")
-plt.ylabel(r"$N_{p}$")
-plt.plot(rec_curve.get_t(), np.array(I))
-plt.grid(True)
-plt.show()
