@@ -29,7 +29,7 @@ kr_infos = {'Swc' : 0.1,
             'kro_max': 1.0,
             'a': 2,
             'b': 1,
-            'M' : 20.0,
+            'M' : 200.0,
             'wettability' : 'Strongly-water-wet'}
 
 # # Weakly water-wet
@@ -84,7 +84,7 @@ dimensional_reservoir = {'L'  : 1.0,
                          'phi': 0.35,
                          'qt' : 7.5e-5,
                          'ti' : 0.01,
-                         'tf' : 7000,
+                         'tf' : 800,
                          'Nt' : 200,
                          'Nx' : 1000,
                          'A'  : 1.0} 

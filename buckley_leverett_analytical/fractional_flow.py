@@ -42,3 +42,6 @@ class Fractional_flow:
         plt.xlim([-0.1,1.1])
         if save_pdf: plt.savefig('fractional_flow_' + self.kr_infos['wettability'] + '.pdf', dpi=300, bbox_inches='tight')
         plt.show()
+
+    def eval_fw(self, Sw_eval):
+        return np.interp(Sw_eval, self.Sw, self.fw)
