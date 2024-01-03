@@ -11,8 +11,6 @@ This folder contains the full implementation of the analytical construction solu
 - `recovery_calc.py`: Script for calculating recovery using the analytical solution.
 - `main.py`: Main application code that calls the modules in an example.
 
-![generating](https://github.com/UnderMou/buckley_leverett/assets/95579674/00079dd3-0b15-4fd4-b829-b636eafd8b4e)
-
 ## 2. buckley_leverett_upwind
 
 In this folder, the Buckley-Leverett equation solution is implemented in a numerical way using finite differences. The numerical approach includes upwind handling of the advective term. It utilizes the modules of fractional flow and relative permeability described in the analytical section.
