@@ -125,8 +125,7 @@ while t<=tf:
         u_next[i] = u[i] - (dimensional_reservoir['qt']/dimensional_reservoir['phi'])*(dt/dx)*(frac_flow.eval_fw(u[i]) - frac_flow.eval_fw(u[i-1]))
 
     ######################################################
-
-    u_next[-1] = u_next[-2]     # NEUMANN B.C.  
+ 
 
     line.set_ydata(u)   # Update the y-data of the line
     plt.draw()          # Redraw the plot
