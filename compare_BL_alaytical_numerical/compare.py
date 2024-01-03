@@ -58,7 +58,7 @@ dimensional_reservoir = {'L'  : 1.0,
                          'phi': 0.35,
                          'qt' : 7.5e-5,
                          'ti' : 0.01,
-                         'tf' : 200,
+                         'tf' : 500,
                          'Nt' : 200,
                          'Nx' : 1000,
                          'A'  : 1.0} 

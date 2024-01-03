@@ -1,4 +1,4 @@
-from tkinter import SW
+#from tkinter import SW
 import numpy as np
 import matplotlib.pyplot as plt
 

@@ -48,11 +48,12 @@ class Recovery_calc:
         plt.show()
 
     def do_dimensional_NpD_t(self, dimensional_reservoir):
-        necessary_keys = ['L', 'phi', 'qt', 'ti', 'tf', 'Nt', 'Nx']
+        necessary_keys = ['L', 'phi', 'qt', 'ti', 'tf', 'Nt', 'Nx', 'A']
         for key in necessary_keys:
             assert key in dimensional_reservoir.keys(), f"'{key}' is not defined."
 
         L = dimensional_reservoir['L']
+        A = dimensional_reservoir['A']
         phi = dimensional_reservoir['phi']
         qt = dimensional_reservoir['qt']
         ti = dimensional_reservoir['ti']
@@ -61,8 +62,10 @@ class Recovery_calc:
         Nx = dimensional_reservoir['Nx']
 
         t = np.divide(self.tD*phi*L,qt)
+
+        
   
-        self.Np = self.NpD*phi # TODO: Veriticar com Rodrigo se multiplica por L e A também
+        self.Np = self.NpD*phi*L*A # TODO: Veriticar com Rodrigo se multiplica por L e A também para generalizar dimensões reservatório
         self.t = t
     
     def get_t(self):
@@ -82,9 +85,6 @@ class Recovery_calc:
         for i in range(len(fw_t)):
             Sw = bl_solution.get_grid()[i][-1]
             fw_t[i] = np.interp(Sw, frac_flow.get_Sw(), frac_flow.get_fw())
-        # print(len(bl_solution.get_t()), len(fw_t))
-        # plt.plot(bl_solution.get_t(),fw_t)
-        # plt.show()
         self.fw_t = fw_t
 
     def integrand(self, t, bl_solution):
