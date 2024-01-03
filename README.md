@@ -17,13 +17,8 @@ In this folder, the Buckley-Leverett equation solution is implemented in a numer
 
 ## 3. compare_BL_analytical_numerical
 
-This folder is a duplicate of the previous two and is dedicated to a comparative analysis of solutions obtained by both methods (analytical and numerical). It provides insights into the differences and similarities between the two approaches.
+This folder is a duplicate of the previous two and is dedicated to a comparative analysis of solutions obtained by both methods (analytical and numerical).
 
 ## 4. others
 
 The `others` folder serves as a backup for additional codes and tests developed throughout the entire implementation. It contains miscellaneous files and experimental code that may not be directly related to the main Buckley-Leverett equation solutions but are valuable for reference and future development.
-
-## Usage
-
-Follow the instructions in each folder's respective README or code comments for details on how to use and run the provided implementations.
-
