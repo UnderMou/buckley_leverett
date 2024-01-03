@@ -5,11 +5,11 @@ This repository contains implementations and comparative analyses of the Buckley
 ## 1. buckley_leverett_analytical
 
 This folder contains the full implementation of the analytical construction solution of the Buckley-Leverett equation. Each module focuses on different aspects:
-- `fractional_flow_functions`: Module for fractional flow functions.
-- `relative_permeability_curves`: Module for relative permeability curves.
-- `solution_construction`: Module for the analytical solution construction procedure.
-- `recovery_calculation_script`: Script for calculating recovery using the analytical solution.
-- `main_code`: Main application code that calls the modules in an example.
+- `fractional_flow.py`: Module for fractional flow functions.
+- `relative_permeability.py`: Module for relative permeability curves.
+- `bl_solution.py`: Module for the analytical solution construction procedure.
+- `recovery_calc.py`: Script for calculating recovery using the analytical solution.
+- `main.py`: Main application code that calls the modules in an example.
 
 ## 2. buckley_leverett_upwind
 
