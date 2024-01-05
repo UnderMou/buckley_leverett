@@ -113,7 +113,7 @@ class BuckleyLeverettSolution:
     def show_dimensional_Sw_x(self):
         # Create the plot
         plt.ion()  # Turn on interactive mode for live updating
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(20,5))
         ylimit = [-0.1, 1.1]
         ax.set_ylim(ylimit)
         ax.grid(True)
