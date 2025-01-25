@@ -16,8 +16,10 @@ class Fractional_flow:
     def set_fw(self):
         krw, kro = self.rel_perm.get_krw(), self.rel_perm.get_kro()
         np.seterr(all='ignore')
+
         # Fractional flow ignoring gravity / capillarity effects
         self.fw = np.divide(1, 1 + (1/self.M)*np.divide(kro, krw))
+
         np.seterr(all='warn')
         self.dfw_dSw = np.gradient(self.fw, self.Sw)
 
@@ -44,3 +46,36 @@ class Fractional_flow:
 
     def eval_fw(self, Sw_eval):
         return np.interp(Sw_eval, self.Sw, self.fw)
+    
+class Fractional_flow_grav(Fractional_flow):
+
+    def __init__(self, Sw, rel_perm, dict_infos):
+        super().__init__(Sw, rel_perm, dict_infos) 
+
+        self.muw = dict_infos['muw']
+        self.rho_w = dict_infos['rho_w']
+        self.rho_o = dict_infos['rho_o']
+        self.qt = dict_infos['qt']
+        self.K = dict_infos['K']
+        self.g = dict_infos['g']
+
+    def set_fw(self):
+        krw, kro = self.rel_perm.get_krw(), self.rel_perm.get_kro()
+        np.seterr(all='ignore')
+
+        # Fractional flow ignoring just capillarity effects
+        muw = self.muw
+        muo = self.M*muw
+        rhow = self.rho_w
+        rhoo = self.rho_o
+        qt = self.qt
+        K = self.K
+        g = self.g
+
+        mobw = krw/muw
+        mobo = kro/muo
+        mobt = mobo + mobw
+        self.fw = np.divide(mobw,mobt) + (K/qt)*np.divide(np.multiply(mobw,mobo),mobt)*(rhow-rhoo)*g
+
+        np.seterr(all='warn')
+        self.dfw_dSw = np.gradient(self.fw, self.Sw)

@@ -125,7 +125,7 @@ class BuckleyLeverettSolution:
 
 
         for i in range(self.grid.shape[0]):
-            new_text = f'time: {self.t[i]:.2f}'
+            new_text = r'$t_D$: ' + f'{self.t[i]:.4f}'
             text_element.set_text(new_text)
 
             line.set_ydata(self.grid[i][:])   # Update the y-data of the line
